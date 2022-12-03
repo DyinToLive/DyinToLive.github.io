@@ -10,7 +10,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <title>Search Page</title>
     <link rel="stylesheet" href="css/a2css.css">
- 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.min.js"></script>
+    
     <script src="artists.json"></script>
     <script src="sample-songs.json"></script>
     <script src="genres.json"></script>
@@ -18,6 +19,7 @@
 </head>
 
 <body>
+
     <header>
         <div class="dropdown">
             <button class="dropbtn">Credits</button>
@@ -116,14 +118,14 @@
                 </thead>
                 <tbody class="singleSongBody"></tbody>
             </table>
-            <div class="text-center">
-                <h3 class="text-center"><img src="icons/list.png" /> Song Analytics </h3>
-                <ul id="songDetails"> </ul>
-            </div>
-            <div class="chart">
-                <canvas id="songChart"></canvas>
-                
-          
+            <div class="row">
+                <div class="col-md-3">
+                    <h3 class="text-center"><img src="icons/list.png" /> Song Analytics </h3>
+                    <ul id="songDetails"> </ul>
+                </div>
+                <div class="col-md-6" width="250" height="250">
+                    <canvas id="radarChart"></canvas>
+                </div>
             </div>
         </section>
 
