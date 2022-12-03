@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Assignment 2</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <title>Search Page</title>
+    <link rel="stylesheet" href="css/a2css.css">
+ 
+    <script src="artists.json"></script>
+    <script src="sample-songs.json"></script>
+    <script src="genres.json"></script>
+    <script src="js/assign2.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="dropdown">
+            <button class="dropbtn">Credits</button>
+            <div class="dropdown-content">
+                <a target="_blank" href='https://github.com/hamid269/Assignment-2'>GitHub URL</a>
+                <a target="_blank" href='https://github.com/dyintolive'>Jameson Watson</a>
+                <a target="_blank" href=''> Hoomer Amid</a>
+            </div>
+        </div>
+    </header>
+    <div class=" container">
+        <aside class="search">
+            Basic Song Search
+        </aside>
+        <div class="row justify-content-md-center">
+            <div class="col-4" id="aside">
+                <span class="flow-text"> Basic Search</span>
+                <form id="searchForm" action="#">
+                    <div class="form-check ">
+                        <input class="form-check-input" name="flexRadioDefault" id="title" type="radio" />
+                        <label class="form-check-label" for="titleSearch ">
+                            <span>Title</span>
+                            <input name="title" id="titleSearch" type="text" />
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label" for="artistSelect">
+                            <input class="form-check-input" name="flexRadioDefault" id="artist" type="radio" />
+                            <span>Artist</span>
+                            <select name="artistSelect" id="artistSelect"><option value="" enabled selected>Select Artist</option></select>
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label" for="genreSelect">
+                            <input class="form-check-input " name="flexRadioDefault" id="genre" type="radio" />
+                            <span>Genre</span>
+                            <select name="genreSelect" id="genreSelect"><option value="" enabled selected>Select Genre</option></select>
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="flexRadioDefault" id="year" type="radio" />
+                        <label class="form-check-label" for="yearSearch">
+                            <span>Year</span>
+                            <input name="year" id="yearSearch" type="text" />
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="flexRadioDefault " id="pop" type="radio" />
+                        <label class="form-check-label" for="popSearch">
+                            <span>Popularity</span>
+                            <input name="pop" id="popSearchGreater" placeholder="greater" type="text" />
+                            <input name="pop" id="popSearchLess" placeholder="less" type="text" />
+                        </label>
+                    </div>
+                    <div class="row">
+                        <div class="col s2">
+                            <button id="clear" type="button" class="btn btn-dark" value="clear">Clear</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col col-8">
+                <section id="allSongs">
+                    <table class="table table-dark table-hover">
+                        <thead id="allSongsTH">
+                            <tr>
+                                <th class="text-center">Title<button type="button" id="titleRadioButton" class="btn btn-dark" />&#9660;</th>
+                                <th class="text-center">Artist<button type="button" id="artistRadioButton" class="btn btn-dark" />&#9660;</th>
+                                <th class="text-center">Year<button type="button" id="yearRadioButton" class="btn btn-dark" />&#9660;</th>
+                                <th class="text-center">Genre<button type="button" id="genreRadioButton" class="btn btn-dark" />&#9660;</th>
+                                <th class="text-center">Popularity<button type="button" id="popRadioButton" class="btn btn-dark" />&#9660;</th>
+                                <th class="text-center">Favorite</th>
+                            </tr>
+                        </thead>
+                        <tbody class="allSongsBody "></tbody>
+                    </table>
+                </section>
+            </div>
+
+        </div>
+        <section id="singleSong" class="hidden">
+            <h2 class="text-center text-white" id="songHead"></h2>
+
+            <div class="col-12r text-center">
+                <button type="button" id="closeSong" class="btn btn-dark">Close</button>
+            </div>
+            <table class="table table-dark table-hover">
+                <thead>
+                    <tr>
+                        <th><strong> Title </strong></th>
+                        <th><strong> Artist Name </strong></th>
+                        <th><strong> Genre </strong></th>
+                        <th><strong> Year </strong></th>
+                        <th><strong> Duration </strong></th>
+                    </tr>
+                </thead>
+                <tbody class="singleSongBody"></tbody>
+            </table>
+            <div class="text-center">
+                <h3 class="text-center"><img src="icons/list.png" /> Song Analytics </h3>
+                <ul id="songDetails"> </ul>
+            </div>
+            <div class="chart">
+                <canvas id="songChart"></canvas>
+                <script type="module" src="js/acquisitions.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.0.1/helpers.min.js" integrity="sha512-c0j5ITIxnG5CknVw3Tl4LrXCBV6Vevg3OFbTFWnuItsDokxEix501UjCggJC2McxWe2Arq4XYJdHd0VLKUc9aQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            </div>
+        </section>
+
+
+        <section id="playlist" class="hidden">
+        </section>
+
+        <div class="row justify-content-start">
+
+        </div>
+    </div>
+</body>
+
+
+</html>
+
+<footer>
+    COMP3512F2022<br> Assignment 2
+    <a href='https://github.com/hamid269/Assignment-2'>Github Repository </a><br>
+    <br>
+    <div class="Names ">
+        Contributors:<br>
+        <a target="_blank" href='https://github.com/dyintolive'>Jameson Watson</a><br>
+        <a target="_blank" href='https://github.com/hamid269'> Hoomer Amid</a><br>
+    </div>
+</footer>
