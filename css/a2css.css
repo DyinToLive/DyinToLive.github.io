@@ -63,15 +63,22 @@ header {
         cursor: pointer;
     }
     
-    #searchForm {
+    form {
         justify-content: space-around;
+        border:none;
+        
     }
-    
-    form label {
-        text-transform: uppercase;
+        form input[type="text"], select {
+            border-radius: 5px;
+        }
+
+        form label {
+            text-transform: uppercase;
+        }
+
+    form input[type="text"]:hover{
+        background-color: #7289da;
     }
-    
-    form input[type="text"] {}
     
     #songDetails {
         list-style: none;

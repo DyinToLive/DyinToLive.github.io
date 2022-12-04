@@ -38,47 +38,59 @@
             <div class="col-4" id="aside">
                 <span class="flow-text"> Basic Search</span>
                 <form id="searchForm" action="#">
-                    <div class="form-check ">
-                        <input class="form-check-input" name="flexRadioDefault" id="title" type="radio" />
-                        <label class="form-check-label" for="titleSearch ">
-                            <span>Title</span>
-                            <input name="title" id="titleSearch" type="text" />
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <label class="form-check-label" for="artistSelect">
-                            <input class="form-check-input" name="flexRadioDefault" id="artist" type="radio" />
-                            <span>Artist</span>
-                            <select name="artistSelect" id="artistSelect"><option value="" enabled selected>Select Artist</option></select>
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <label class="form-check-label" for="genreSelect">
-                            <input class="form-check-input " name="flexRadioDefault" id="genre" type="radio" />
-                            <span>Genre</span>
-                            <select name="genreSelect" id="genreSelect"><option value="" enabled selected>Select Genre</option></select>
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" name="flexRadioDefault" id="year" type="radio" />
-                        <label class="form-check-label" for="yearSearch">
-                            <span>Year</span>
-                            <input name="year" id="yearSearch" type="text" />
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" name="flexRadioDefault " id="pop" type="radio" />
-                        <label class="form-check-label" for="popSearch">
-                            <span>Popularity</span>
-                            <input name="pop" id="popSearchGreater" placeholder="greater" type="text" />
-                            <input name="pop" id="popSearchLess" placeholder="less" type="text" />
-                        </label>
-                    </div>
-                    <div class="row">
-                        <div class="col s2">
-                            <button id="clear" type="button" class="btn btn-dark" value="clear">Clear</button>
+                    <div class="form-group">
+                        <div class="form-check ">
+                            <input class="form-check-input" name="flexRadioDefault" id="title" type="radio" />
+                            <label class="form-check-label" for="titleSearch ">
+                                <span>Title</span>
+                                <input name="title" id="titleSearch" type="text" />
+                            </label>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <label class="form-check-label" for="artistSelect">
+                                <input class="form-check-input" name="flexRadioDefault" id="artist" type="radio" />
+                                <span>Artist</span>
+                                <select name="artistSelect" id="artistSelect"><option value="" enabled selected>Select Artist</option></select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <label class="form-check-label" for="genreSelect">
+                                <input class="form-check-input" name="flexRadioDefault" id="genre" type="radio" />
+                                <span>Genre</span>
+                                <select name="genreSelect" id="genreSelect"><option value="" enabled selected>Select Genre</option></select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" name="flexRadioDefault" id="year" type="radio" />
+                            <label class="form-check-label" for="yearSearch">
+                                <span>Year</span>
+                                <input name="year" id="yearSearch" type="text" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <div class="form-check col-sm-2">
+                                <input class="form-check-input" name="flexRadioDefault " id="pop" type="radio" />
+                                <label class="form-check-label" for="popSearch">
+                                    <span>Popularity</span>
+                                    <input name="pop" id="popSearchGreater" placeholder="greater" type="text" />
+                                    <input name="pop" id="popSearchLess" placeholder="less" type="text" />
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="row">
+                            <div class="col s2">
+                                <button id="clear" type="button" class="btn btn-dark" value="clear">Clear</button>
+                            </div>
+                        </div>
                 </form>
             </div>
             <div class="col col-8">

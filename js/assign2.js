@@ -90,12 +90,16 @@ document.addEventListener("DOMContentLoaded", function () {
      */
     function formFilter(songs) {
         const title = document.querySelector("#title");
+        const titleText = document.querySelector("#titleSearch");
         const artist = document.querySelector("#artist");
         const artistSelect = document.querySelector("#artistSelect")
         const genre = document.querySelector("#genre");
         const genreSelect = document.querySelector("#genreSelect");
         const year = document.querySelector("#year");
+        const yearText = document.querySelector("#yearSearch");
         const pop = document.querySelector("#pop");
+        const popLess = document.querySelector("#popSearchLess");
+        const popGreater = document.querySelector("#popSearchGreater");
         const clearForm = document.querySelector("#clear");
 
         //clear the contents of the form and enable the input fields for further use
@@ -109,6 +113,10 @@ document.addEventListener("DOMContentLoaded", function () {
             genreSelect.disabled = false;
             pop.disabled = false;
             year.disabled = false;
+            titleText.disabled = false;
+            popLess.disabled = false;
+            popGreater.disabled = false;
+            yearText.disabled = false;
             displaySongs(songs);
         });
         // allow user to search using any filter if no input radio buttons are selected
@@ -129,6 +137,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 genreSelect.disabled = true;
                 artistSelect.disabled = true;
                 pop.disabled = true;
+                popLess.disabled = true;
+                popGreater.disabled = true;
+                yearText.disabled = true;
                 year.disabled = true;
                 searchTitles(songs);
             }
@@ -137,8 +148,12 @@ document.addEventListener("DOMContentLoaded", function () {
         artist.addEventListener("click", function (e) {
             if (artist.disabled == false) {
                 title.disabled = true;
+                titleText.disabled = true;
                 genre.disabled = true;
                 genreSelect.disabled = true;
+                popLess.disabled = true;
+                popGreater.disabled = true;
+                yearText.disabled = true;
                 artistSelected(songs);
                 pop.disabled = true;
                 year.disabled = true;
@@ -152,6 +167,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 artistSelect.disabled = true;
                 pop.disabled = true;
                 year.disabled = true;
+                popLess.disabled = true;
+                popGreater.disabled = true;
+                yearText.disabled = true;
+                titleText.disabled = true;
                 genreSelected(songs);
             }
         });
@@ -164,6 +183,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 pop.disabled = true;
                 genreSelect.disabled = true;
                 genre.disabled = true;
+                popLess.disabled = true;
+                popGreater.disabled = true;
+                titleText.disabled = true;
                 yearSearch(songs);
             }
         });
@@ -175,6 +197,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 year.disabled = true;
                 genreSelect.disabled = true;
                 genre.disabled = true;
+                yearText.disabled = true;
+                titleText.disabled = true;
                 popSearchGreater(songs);
                 popSearchLess(songs);
             }
