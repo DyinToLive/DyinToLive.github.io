@@ -23,6 +23,25 @@ document.addEventListener("DOMContentLoaded", function () {
             }).then(data => {
                 const jsonData = JSON.stringify(data);
                 localStorage.setItem("songs", jsonData);
+                const artists = JSON.parse(content);
+                const genres = JSON.parse(content2);
+                const songs = JSON.parse(jsonData);
+                //initially sort the songs by title as per instructions.
+                const sortByTitle = songs.sort((a, b) => a.title < b.title ? -1 : 1);
+                //display the songs when page is opened
+                displaySongs(sortByTitle);
+                //invoke genre list
+                genreSelectList(genres);
+                //invoke select list
+                artistSelectList(artists);
+                sortSongs(songs);
+                formFilter(songs);
+
+                document.querySelector("#closeSong").addEventListener("click", function () {
+                    let singleSongView = document.querySelector("#singleSong");
+                    singleSongView.classList.toggle("hidden");
+                });
+
             }).catch(err => {console.log('err=' + err)});
     }
     else {
@@ -45,7 +64,30 @@ document.addEventListener("DOMContentLoaded", function () {
             let singleSongView = document.querySelector("#singleSong");
             singleSongView.classList.toggle("hidden");
         });
-     
+
+        document.querySelector(".addFav").addEventListener('click', (e) => {
+            if (e.target.nodeName.toLowerCase() == 'button' && e.target) {
+                let id = e.target.getAttribute('data-songid');
+                let s = songs.find(s => s.song_id == id);
+                let formBody = new FormData();
+                formBody.set("songid", s.song_id);
+              //  console.log(song_id);
+                formBody.set("title", s.title);
+                const opt = {
+                    method: 'POST',
+                    body: formBody
+                };
+
+                fetch(api, opt)
+                    .then(resp => resp.json())
+                    .then(data => {
+                        favAdded(`${data.received.title} was added to favorites`);
+                    })
+                    .catch(error => {
+                        favAdded('An error occurred, favorites not successful');
+                    });
+            }
+        });
         console.log(artists);
         console.log(songs);
     }
@@ -322,34 +364,6 @@ document.addEventListener("DOMContentLoaded", function () {
             genreSelect.appendChild(genreOption);
         }
     }
-    
- 
-  
-  
-
-  /*
-    //attempt to search songs with title, artist, and genre
-    document.querySelector("#submit").addEventListener("click", function (e) {
-        let searchList = [];
-        if (e.target && e.target.nodeName == 'SUBMIT') { 
-            if (e.target.id == "title") {
-                 searchList = songs.filter(s => String(songs.title).includes(e.value));
- 
-            }
-            else if (e.target.id == "artistSelect") {
-                searchList= songs.filter(s => songs.artist.name === e.value);
-               
-            }
-            else if (e.target.id == "genreSelect") {
-                searchList = songs.filter(s => songs.genre.name === e.value);
-               
-            }
-        }
-        
-        displaySongs(searchList);
-    });
-   */
-
 
     //function name: displaySongs. 
     //Parameters: a song object. sorts are done on the songs data then passed in to the function.
@@ -415,6 +429,7 @@ document.addEventListener("DOMContentLoaded", function () {
             button.classList.add("btn", "btn-dark", "addFav");
             let addFav = document.createElement("img");
             addFav.setAttribute("src", "icons/plus-lg.svg");
+            button.setAttribute("data-songid", s.song_id);
             button.appendChild(addFav);
             tableRow.appendChild(favorite);
             tableBody.appendChild(tableRow);
@@ -436,6 +451,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     populateChart(single);
                 }
             });
+
         }
     };
 
@@ -534,6 +550,20 @@ document.addEventListener("DOMContentLoaded", function () {
         singleSongBody.appendChild(tableRow);
         //end of populate song
     }
+    function favAdded(msg) {
+        const s = document.querySelector("#snackbar");
+        s.textContent = msg;
+        s.classList.add("show");
+        setTimeout(() => {
+            s.classList.remove("show");
+        }, 2000);
+    }
+
+
+
+    //function name: populateChart
+    //Function builds a radarChart using the canvas tag and the chart from chart.js 
+    //the details of the chart are the analytics for a single song
     function populateChart(single) {
         const ctx = document.getElementById('radarChart');
         //if chart exists, destroy it before building new chart
@@ -599,6 +629,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
         }
-        
     }
+
 });
