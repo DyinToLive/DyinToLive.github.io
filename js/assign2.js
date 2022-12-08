@@ -6,7 +6,8 @@ document.addEventListener("DOMContentLoaded", function () {
        Some possibilities: if using Visual Code, use Live Server extension; if Brackets,
        use built-in Live Preview.
     */
-
+    const url = 'https://www.randyconnolly.com/funwebdev/3rd/async-post.php';
+    let playlist = [];
     const jsonData = localStorage.getItem("songs");
     if (!jsonData) {
         fetch(api)
@@ -42,10 +43,19 @@ document.addEventListener("DOMContentLoaded", function () {
                     singleSongView.classList.toggle("hidden");
                 });
 
+                document.querySelector("#openFav").addEventListener("click", function () {
+                    let favs = document.querySelector("#playlist");
+                    favs.classList.toggle("hidden");
+                    displayFavs(playlist);
+                    let allSongs = document.querySelector("#allSongs");
+                    allSongs.classList.add("hidden");
+                    allSongs.classList.toggle("hidden");
+                });
+                
+
             }).catch(err => {console.log('err=' + err)});
     }
     else {
-
         const artists = JSON.parse(content);
         const genres = JSON.parse(content2);
         const songs = JSON.parse(jsonData);
@@ -64,32 +74,12 @@ document.addEventListener("DOMContentLoaded", function () {
             let singleSongView = document.querySelector("#singleSong");
             singleSongView.classList.toggle("hidden");
         });
-
-        document.querySelector(".addFav").addEventListener('click', (e) => {
-            if (e.target.nodeName.toLowerCase() == 'button' && e.target) {
-                let id = e.target.getAttribute('data-songid');
-                let s = songs.find(s => s.song_id == id);
-                let formBody = new FormData();
-                formBody.set("songid", s.song_id);
-              //  console.log(song_id);
-                formBody.set("title", s.title);
-                const opt = {
-                    method: 'POST',
-                    body: formBody
-                };
-
-                fetch(api, opt)
-                    .then(resp => resp.json())
-                    .then(data => {
-                        favAdded(`${data.received.title} was added to favorites`);
-                    })
-                    .catch(error => {
-                        favAdded('An error occurred, favorites not successful');
-                    });
-            }
+        document.querySelector("#openFav").addEventListener("click", function () {
+            let favs = document.querySelector("#playlist");
+            favs.classList.toggle("hidden");
+            displayFavs(playlist);
         });
-        console.log(artists);
-        console.log(songs);
+     
     }
     /*
     * "const ______RadioButton" SORTS FOR TITLE, ARTIST, YEAR, GENRE, POPULARITY BEGIN HERE.
@@ -453,6 +443,36 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
         }
+
+        const clickFav = document.querySelectorAll(".addFav");
+        for (let fav of clickFav) {
+            fav.addEventListener('click', (e) => {
+                if (e.target.nodeName.toLowerCase() == 'button' && e.target) {
+                    let id = e.target.getAttribute('data-songid');
+                    let s = sortedSongs.find(s => s.song_id == id);
+                    let formBody = new FormData();
+                    formBody.set("data-songid", s.song_id);
+                    formBody.set("title", s.title);                   
+                    const opt = {
+                        method: 'POST',
+                        body: formBody
+                    };
+                    //add to the playlist if it is clicked
+                    
+                    playlist.push(s);
+                    displayFavs(playlist);
+                    console.log(playlist);
+                    fetch(url, opt)
+                        .then(resp => resp.json())
+                        .then(data => {
+                            favAdded(`${data.received.title} was added to favorites`);
+                        })
+                        .catch(error => {
+                            favAdded('An error occurred, favorites not successful');
+                        });
+                }
+            });
+        }
     };
 
     /*function name: populateSongView
@@ -559,8 +579,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 2000);
     }
 
-
-
+  
     //function name: populateChart
     //Function builds a radarChart using the canvas tag and the chart from chart.js 
     //the details of the chart are the analytics for a single song
@@ -630,5 +649,101 @@ document.addEventListener("DOMContentLoaded", function () {
         });
         }
     }
+    
+    function displayFavs(playlist) {
+        const tableBody = document.querySelector(".playlistBody");
+        tableBody.innerHTML = "";
 
+        for (let s of playlist) {
+            //console.log(s);
+            let tableRow = document.createElement("tr");
+            //tableRow.setAttribute("data-songID", s.id);
+            let title = document.createElement("td");
+            title.value = s.title;
+            let a = document.createElement("a");
+            a.setAttribute("data-songid", s.song_id);
+            a.classList.add("clickTitle");
+            a.textContent = s.title;
+            a.style.color = "#7289da";
+            a.setAttribute("href", "#");
+            title.appendChild(a);
+            tableRow.appendChild(title);
+
+            let artist = document.createElement("td");
+            artist.textContent = s.artist.name;
+            tableRow.appendChild(artist);
+
+            let year = document.createElement("td");
+            year.textContent = s.year;
+            tableRow.appendChild(year);
+
+            let genre = document.createElement("td");
+            genre.textContent = s.genre.name;
+            tableRow.appendChild(genre);
+            /*
+             * USE THIS IF THE POPULARITY PROGRESS BARS BREAK
+            let popularity = document.createElement("td");
+            popularity.textContent = s.details.popularity;
+            tableRow.appendChild(popularity);
+            tableBody.appendChild(tableRow);
+            */
+            let popularity = document.createElement("td");
+            let div1 = document.createElement("div");
+            div1.className = "progress";
+            let div = document.createElement("div");
+            div.classList.add("progress", "progress-bar", "progress-bar-striped", "active");
+            div.ariaRoleDescription = "progressbar";
+            div.ariaValueMax = 100;
+            div.ariaValuemin = 0;
+            div.ariaValueNow = s.details.popularity;
+            div.style = "width:" + s.details.popularity + "%";
+            popularity.appendChild(div);
+            tableRow.appendChild(popularity)
+
+            //<button type="button" class="btn btn-primary">
+            // Favorites
+            // </button >
+            let favorite = document.createElement("td");
+            let button = document.createElement("button");
+            favorite.appendChild(button);
+            button.classList.add("btn", "btn-dark", "remFav");
+            let addFav = document.createElement("img");
+            addFav.setAttribute("src", "icons/esc.png");
+            button.setAttribute("data-songid", s.song_id);
+            button.appendChild(addFav);
+            tableRow.appendChild(favorite);
+            tableBody.appendChild(tableRow);
+        }
+      
+        /*
+         * add the click event within the build table loop.
+         */
+        const clickTitle = document.querySelectorAll(".clickTitle");
+        for (let titles of clickTitle) {
+            titles.addEventListener("click", (e) => {
+                if (e.target.nodeName == 'A' && e.target) {
+                    let id = e.target.getAttribute("data-songid");
+                    const single = playlist.find(p => p.song_id == id);
+                    //console.log(single);
+                    e.preventDefault();
+                    //e.stopPropagation();
+                    populateSongView(single);
+                    populateChart(single);
+                }
+            });
+
+        }
+   
+        const clickFav = document.querySelectorAll(".remFav");
+        for (let rem of clickFav) {
+            rem.addEventListener('click', (e) => {
+                if (e.target.nodeName.toLowerCase() == 'button' && e.target) {
+                    let id = e.target.getAttribute('data-songid');
+                    let s = playlist.find(p => p.song_id == id);
+                    playlist.pop(s);
+                    displayFavs(playlist);
+                }
+            });  
+        }
+    }
 });
