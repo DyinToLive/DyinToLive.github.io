@@ -201,3 +201,15 @@ header {
         opacity: 0;
     }
 }
+/*Translation idea from https://www.youtube.com/watch?v=QdD8nEvQ1qQ&t=866s&ab_channel=ZinoTrustAcademy */
+.playlist {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 1rem;
+    background: rgba(0,0,0,0.9);
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100%);
+    transition: all 0.5s;
+}

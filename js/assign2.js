@@ -47,9 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     let favs = document.querySelector("#playlist");
                     favs.classList.toggle("hidden");
                     displayFavs(playlist);
-                    let allSongs = document.querySelector("#allSongs");
-                    allSongs.classList.add("hidden");
-                    allSongs.classList.toggle("hidden");
+                    
                 });
                 
 
@@ -77,9 +75,16 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector("#openFav").addEventListener("click", function () {
             let favs = document.querySelector("#playlist");
             favs.classList.toggle("hidden");
+            favs.style.transform = "translateX(0)";
             displayFavs(playlist);
         });
-     
+
+        document.querySelector("#closeFav").addEventListener("click", function () {
+            let closeFavs = document.querySelector("#playlist");
+            closeFavs.classList.toggle("hidden");
+            closeFavs.style.transform = "translateX(100)";
+        });
+
     }
     /*
     * "const ______RadioButton" SORTS FOR TITLE, ARTIST, YEAR, GENRE, POPULARITY BEGIN HERE.
@@ -410,15 +415,14 @@ document.addEventListener("DOMContentLoaded", function () {
             popularity.appendChild(div);
             tableRow.appendChild(popularity)
 
-            //<button type="button" class="btn btn-primary">
-           // Favorites
-               // </button >
+            //add fav button to add a song to the favorites.
             let favorite = document.createElement("td");
             let button = document.createElement("button");
             favorite.appendChild(button);
             button.classList.add("btn", "btn-dark", "addFav");
             let addFav = document.createElement("img");
             addFav.setAttribute("src", "icons/plus-lg.svg");
+            addFav.setAttribute("data-songid", s.song_id);
             button.setAttribute("data-songid", s.song_id);
             button.appendChild(addFav);
             tableRow.appendChild(favorite);
@@ -447,29 +451,16 @@ document.addEventListener("DOMContentLoaded", function () {
         const clickFav = document.querySelectorAll(".addFav");
         for (let fav of clickFav) {
             fav.addEventListener('click', (e) => {
-                if (e.target.nodeName.toLowerCase() == 'button' && e.target) {
+                if (e.target.nodeName.toLowerCase() == 'button' && e.target || e.target.nodeName == 'IMG') {
                     let id = e.target.getAttribute('data-songid');
                     let s = sortedSongs.find(s => s.song_id == id);
-                    let formBody = new FormData();
-                    formBody.set("data-songid", s.song_id);
-                    formBody.set("title", s.title);                   
-                    const opt = {
-                        method: 'POST',
-                        body: formBody
-                    };
                     //add to the playlist if it is clicked
                     
                     playlist.push(s);
                     displayFavs(playlist);
                     console.log(playlist);
-                    fetch(url, opt)
-                        .then(resp => resp.json())
-                        .then(data => {
-                            favAdded(`${data.received.title} was added to favorites`);
-                        })
-                        .catch(error => {
-                            favAdded('An error occurred, favorites not successful');
-                        });
+                   
+                    favAdded(`${s.title} was added to favorites`);                   
                 }
             });
         }
@@ -710,6 +701,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let addFav = document.createElement("img");
             addFav.setAttribute("src", "icons/esc.png");
             button.setAttribute("data-songid", s.song_id);
+            addFav.setAttribute("data-songid", s.song_id);
             button.appendChild(addFav);
             tableRow.appendChild(favorite);
             tableBody.appendChild(tableRow);
@@ -733,17 +725,30 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
         }
-   
         const clickFav = document.querySelectorAll(".remFav");
         for (let rem of clickFav) {
             rem.addEventListener('click', (e) => {
-                if (e.target.nodeName.toLowerCase() == 'button' && e.target) {
-                    let id = e.target.getAttribute('data-songid');
-                    let s = playlist.find(p => p.song_id == id);
-                    playlist.pop(s);
+                if (e.target.nodeName.toLowerCase() == 'button' && e.target || e.target.nodeName == 'IMG') {
+                    e.stopPropagation();
+                    let id = e.target.getAttribute('data-songid');               
+                    //if the clicked song matches the attribute, remove that song
+                    for (i = 0; i < playlist.length; i++) {
+                        if (playlist[i].song_id == id) {
+                            console.log(playlist.splice(i, 1));
+                        }
+                    }
+                    //update playlist
                     displayFavs(playlist);
                 }
-            });  
+            });
+            document.querySelector("#deleteFav").addEventListener("click", function () {
+                for (i = 0; i < playlist.length; i++) {
+                    playlist.splice(i, 1);
+                }
+                displayFavs(playlist);
+            });
         }
     }
-});
+ 
+});       
+    

@@ -142,7 +142,11 @@
 
 
         <div class="col col-8">
-            <section id="playlist" class="hidden">
+            <section id="playlist" class="playlist">
+                <div class="col-12r text-center">
+                    <button type="button" id="closeFav" class="btn btn-dark">Close</button>
+                    <button type="button" id="deleteFav" class="btn btn-dark">Delete All</button>
+                </div>
                 <table class="table table-dark table-hover">
                     <thead>
                         <tr>
@@ -151,7 +155,7 @@
                             <th><strong> Year </strong></th>
                             <th><strong> Genre </strong></th>
                             <th><strong> Popularity </strong></th>
-                            <th>Favorite</th>
+                            <th>Remove Favorite</th>
                         </tr>
                     </thead>
                     <tbody class="playlistBody"></tbody>
@@ -170,11 +174,10 @@
 
 <footer>
     COMP3512F2022<br> Assignment 2
-    <a href='https://github.com/hamid269/Assignment-2'>Github Repository </a><br>
+    <a target="_blank" href='https://github.com/DyinToLive/DyinToLive.github.io'>Github Repository </a><br>
     <br>
     <div class="Names ">
         Contributors:<br>
-        <a target="_blank" href='https://github.com/dyintolive'>Jameson Watson</a><br>
-        <a target="_blank" href='https://github.com/hamid269'> Hoomer Amid</a><br>
+        <a target="_blank" href='https://github.com/DyinToLive/'>Jameson Watson</a><br>
     </div>
 </footer>
