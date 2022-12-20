@@ -49,6 +49,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     displayFavs(playlist);
                     
                 });
+
+                document.querySelector("#closeFav").addEventListener("click", function () {
+                    let closeFavs = document.querySelector("#playlist");
+                    closeFavs.classList.toggle("hidden");
+                    closeFavs.style.transform = "translateX(100)";
+                });
                 
 
             }).catch(err => {console.log('err=' + err)});
